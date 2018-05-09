@@ -1,5 +1,10 @@
+import socket
 import urllib.request, json
 import pandas as pd
+
+# timeout in seconds
+timeout = 10
+socket.setdefaulttimeout(timeout)
 
 sayfa = "https://data.ijf.org/api/get_json?access_token=&params[action]=competition.contests&params[__ust]=&params[id_competition]={0}&params[id_weight]={1}&params[empty]=true"
 competition = 999
