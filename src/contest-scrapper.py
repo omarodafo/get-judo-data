@@ -19,15 +19,15 @@ def get_latest_events():
 	for competition in data:
 		has_result = (competition['has_results'])
 		if (has_result != "0"):
-			finished_competition.append(competition['id_competition'])
+			finished_competition.append(int(competition['id_competition']))
 		
+	finished_competition.sort(reverse=True)
 	return finished_competition
-
 
 
 # For adding date and time to filename 
 get_datetime = datetime.now()
-get_datetime = (get_datetime.strftime('%d-%m-%Y__%H-%M'))
+get_datetime = (get_datetime.strftime('%d-%m-%Y__%H:%M'))
 
 data_url = "https://data.ijf.org/api/get_json?access_token=&params[action]=competition.contests&params[__ust]=&params[id_competition]={0}&params[id_weight]={1}&params[empty]=true"
 with alive_bar(len(get_latest_events())) as bar:
@@ -43,5 +43,5 @@ with alive_bar(len(get_latest_events())) as bar:
 				data_pd = data['contests']
 				
 			dataframe = pd.DataFrame(data_pd)
-			dataframe.to_csv('contests-data-{}.csv'.format(get_datetime), mode='a', index=False, header=False)
+			dataframe.to_csv('contests-data-{}.csv'.format(get_datetime), mode='a', index=False, header=True)
 		bar()
